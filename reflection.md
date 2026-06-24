@@ -7,6 +7,14 @@
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
+1) Create tasks including their duration, priority, and a description of preferences
+2) Create schedules of tasks factoring in their duration and priority
+3) Explain reasoning used to choose the order of tasks in a schedule
+
+Classes:
+- Task should have fields for activity, duration, priority, and preferences
+- Schedule should be initialized with a list of Tasks that is sorted based on duration and priority. Schedule should also have a method to return the reasoning used for its sorting.
+
 **b. Design changes**
 
 - Did your design change during implementation?
