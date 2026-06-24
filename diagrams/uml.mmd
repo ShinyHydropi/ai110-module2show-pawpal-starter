@@ -1,15 +1,15 @@
 classDiagram
-    %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
-    %% Keep this file updated so it matches your final implementation.
-
-    class ClassName {
-        +type attribute
-        +method() returnType
+    class Task {
+        +str activity
+        +int duration
+        +str priority
+        +str preferences
     }
 
-    class AnotherClass {
-        +type attribute
-        +method() returnType
+    class Schedule {
+        +str pet_name
+        +list~Task~ tasks
+        +get_reasoning() str
     }
 
-    ClassName --> AnotherClass : relationship
+    Schedule "1" o-- "0..*" Task : contains
