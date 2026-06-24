@@ -13,7 +13,25 @@
 
 Classes:
 - Task should have fields for activity, duration, priority, and preferences
-- Schedule should be initialized with a list of Tasks that is sorted based on duration and priority. Schedule should also have a method to return the reasoning used for its sorting.
+- Schedule should be initialized with a list of Tasks that is sorted based on duration and priority. Schedule should also have a field for the name of the pet the schedule is for, and have a method to return the reasoning used for its sorting.
+
+```mermaid
+classDiagram
+    class Task {
+        +str activity
+        +int duration
+        +str priority
+        +str preferences
+    }
+
+    class Schedule {
+        +str pet_name
+        +list~Task~ tasks
+        +get_reasoning() str
+    }
+
+    Schedule "1" o-- "0..*" Task : contains
+```
 
 **b. Design changes**
 
