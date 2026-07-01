@@ -42,6 +42,16 @@ pip install -r requirements.txt
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
 
+## ✨ Features
+
+- **Task tracking** — `Task` stores an activity, duration, priority, and optional preferences, and can be marked complete with `mark_complete()`.
+- **Pet management** — `Pet` holds a list of care tasks; `add_task()` appends a new task to a pet's list.
+- **Multi-pet owners** — `Owner` holds a list of pets; `add_pet()` adds a pet, and `get_all_tasks()` returns every pet's tasks keyed by pet name.
+- **Schedule pooling** — `Schedule` pools tasks from one or more of an owner's pets at creation time; `add_task()` adds a single additional task to the pool.
+- **Recurring tasks across schedules** — the static method `Schedule.add_recurring_task()` adds an independent copy of the same task to each schedule in a given list, so a repeating task doesn't have to be re-entered for every schedule.
+- **Priority-based plan building** — `build_plan()` sorts pooled tasks by priority (high → low), then duration, and greedily fits as many as possible into the available time budget, keeping track of both planned and skipped tasks.
+- **Plan output** — `print_plan()` prints a numbered daily plan to the console; `get_reasoning()` returns a human-readable explanation of the plan, including why each task was included and which were skipped for lack of time.
+
 ## 🖥️ Sample Output
 
 Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
@@ -89,12 +99,37 @@ tests\test_pawpal.py .....................                                      
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+### UI features & actions
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+- **Owners & Pets** — Add any number of owners by name. Each owner gets an expandable card where you can add any number of pets (name, species, breed, age). Each pet gets its own nested card for adding tasks (title, duration, priority, preferences) and viewing that pet's task table.
+- **Schedules** — Pick an owner, multiselect which of their pets to include, and name the schedule to create it. You can create multiple schedules per owner (e.g., "Weekday" and "Weekend"), each pooling tasks from a different subset of pets.
+- **Add one task to multiple schedules** — Pick a pet, fill in a task once, and select any number of existing schedules; an independent copy of the task is added to each one, backed by `Schedule.add_recurring_task()`.
+- **Generate Schedules** — Each schedule card shows its pooled tasks, lets you set the available minutes for the day, and has its own "Generate schedule" button that runs `build_plan()` and displays the reasoning.
+
+### Example workflow
+
+1. Add owner "McCrea".
+2. Add two pets under McCrea: "Mo" (dog) and "Eve" (frog).
+3. Add tasks to Mo: "walk" (30 min, high priority), "groom" (20 min, low priority), "do a trick" (40 min, medium priority).
+4. Add the task "do a trick" (40 min, medium priority) to Eve as well.
+5. Create a schedule named "Today" for McCrea, including both Mo and Eve.
+6. Set "Available time today" to 120 minutes and click "Generate schedule".
+7. Review the plan and reasoning: high-priority tasks are scheduled first, and any tasks that don't fit are listed as skipped.
+
+### Key Scheduler behaviors
+
+- Tasks are pooled from a schedule's pets at creation time (or added later via `add_task()`/`add_recurring_task()`) — adding a task directly to a pet afterward does not automatically re-pool it into existing schedules.
+- `build_plan()` orders candidates by priority first (high → medium → low), then by duration (longest first among equal priority), and greedily fills the available time budget.
+- Tasks that don't fit in the remaining time are recorded as skipped rather than dropped; both planned and skipped tasks are explained in `get_reasoning()`.
+- `add_recurring_task()` copies each task independently, so completing or editing one schedule's copy doesn't affect the same task on another schedule.
+
+### Sample CLI output (`main.py`)
+
+```
+Today's schedule for McCrea's pets:
+1. [Mo] walk (30 min)
+2. [Mo] do a trick (40 min)
+3. [Eve] do a trick (40 min)
+```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
