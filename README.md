@@ -131,5 +131,3 @@ Today's schedule for McCrea's pets:
 2. [Mo] do a trick (40 min)
 3. [Eve] do a trick (40 min)
 ```
-
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
