@@ -31,10 +31,14 @@ Pet and Owner objects were added later at the request of the assignment.
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
 
+Priority is considered before duration.
+
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
+
+The scheduler uses duration instead of time of day since the time of day depends on what block of time is available for the user.
 
 ---
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 
@@ -62,6 +62,12 @@ class Schedule:
     def add_task(self, pet: Pet, task: Task) -> None:
         """Add a task for the given pet to this schedule's pooled task list."""
         self.tasks.append((pet, task))
+
+    @staticmethod
+    def add_recurring_task(schedules: list["Schedule"], pet: Pet, task: Task) -> None:
+        """Add an independent copy of a recurring task for the given pet to each schedule."""
+        for schedule in schedules:
+            schedule.add_task(pet, replace(task))
 
     def build_plan(self, available_minutes: int) -> list[tuple[Pet, Task]]:
         """Choose and order pooled tasks by priority to fit within the time budget."""
