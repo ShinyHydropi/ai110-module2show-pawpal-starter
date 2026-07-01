@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 
@@ -13,6 +13,30 @@ class Task:
     duration: int
     priority: str
     preferences: str = ""
+
+
+@dataclass
+class Pet:
+    name: str
+    species: str
+    breed: str = ""
+    age: int | None = None
+    tasks: list[Task] = field(default_factory=list)
+
+    def add_task(self, task: Task) -> None:
+        self.tasks.append(task)
+
+
+@dataclass
+class Owner:
+    name: str
+    pets: list[Pet] = field(default_factory=list)
+
+    def add_pet(self, pet: Pet) -> None:
+        self.pets.append(pet)
+
+    def get_all_tasks(self) -> dict[str, list[Task]]:
+        return {pet.name: list(pet.tasks) for pet in self.pets}
 
 
 class Schedule:

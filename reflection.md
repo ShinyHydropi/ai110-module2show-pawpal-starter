@@ -20,6 +20,8 @@ Classes:
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
 
+Pet and Owner objects were added later at the request of the assignment.
+
 ---
 
 ## 2. Scheduling Logic and Tradeoffs

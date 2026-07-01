@@ -6,10 +6,28 @@ classDiagram
         +str preferences
     }
 
+    class Pet {
+        +str name
+        +str species
+        +str breed
+        +int age
+        +list~Task~ tasks
+        +add_task(task) None
+    }
+
+    class Owner {
+        +str name
+        +list~Pet~ pets
+        +add_pet(pet) None
+        +get_all_tasks() dict
+    }
+
     class Schedule {
         +str pet_name
         +list~Task~ tasks
         +get_reasoning() str
     }
 
+    Owner "1" o-- "1..*" Pet : owns
+    Pet "1" o-- "0..*" Task : has
     Schedule "1" o-- "0..*" Task : contains
