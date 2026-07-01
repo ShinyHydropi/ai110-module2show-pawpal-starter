@@ -66,7 +66,15 @@ pytest --cov
 Sample test output:
 
 ```
-# Paste your pytest output here
+============================================== test session starts ===============================================
+platform win32 -- Python 3.13.5, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\fredd\Python_files\ai110-module2show-pawpal-starter
+plugins: anyio-4.13.0
+collected 2 items                                                                                                 
+
+tests\test_pawpal.py ..                                                                                     [100%]
+
+=============================================== 2 passed in 0.02s ================================================
 ```
 
 ## 📐 Smarter Scheduling
@@ -75,10 +83,9 @@ Sample test output:
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | build_plan() | e.g., by priority, duration |
+| Filtering | build_plan() | e.g., skip tasks if time runs out |
+| Recurring tasks | add_recurring_task | e.g., across schedules for multiple days |
 
 ## 📸 Demo Walkthrough
 
