@@ -4,6 +4,8 @@ classDiagram
         +int duration
         +str priority
         +str preferences
+        +str status
+        +mark_complete() None
     }
 
     class Pet {
@@ -23,11 +25,15 @@ classDiagram
     }
 
     class Schedule {
-        +str pet_name
+        +Owner owner
+        +list~Pet~ pets
         +list~Task~ tasks
+        +print_plan() None
         +get_reasoning() str
     }
 
     Owner "1" o-- "1..*" Pet : owns
     Pet "1" o-- "0..*" Task : has
+    Schedule "1" --> "1" Owner : schedules for
+    Schedule "1" --> "1..*" Pet : pools tasks from
     Schedule "1" o-- "0..*" Task : contains

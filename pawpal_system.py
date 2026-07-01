@@ -16,6 +16,7 @@ class Task:
     status: str = "pending"
 
     def mark_complete(self) -> None:
+        """Mark this task as completed."""
         self.status = "completed"
 
 
@@ -28,6 +29,7 @@ class Pet:
     tasks: list[Task] = field(default_factory=list)
 
     def add_task(self, task: Task) -> None:
+        """Add a task to this pet's task list."""
         self.tasks.append(task)
 
 
@@ -37,14 +39,17 @@ class Owner:
     pets: list[Pet] = field(default_factory=list)
 
     def add_pet(self, pet: Pet) -> None:
+        """Add a pet to this owner's list of pets."""
         self.pets.append(pet)
 
     def get_all_tasks(self) -> dict[str, list[Task]]:
+        """Return each pet's tasks, keyed by pet name."""
         return {pet.name: list(pet.tasks) for pet in self.pets}
 
 
 class Schedule:
     def __init__(self, owner: Owner, pets: list[Pet] | None = None):
+        """Pool tasks from the given (or all of the owner's) pets."""
         self.owner = owner
         self.pets: list[Pet] = pets if pets is not None else list(owner.pets)
         self.tasks: list[tuple[Pet, Task]] = [
@@ -55,16 +60,11 @@ class Schedule:
         self._available_minutes: int | None = None
 
     def add_task(self, pet: Pet, task: Task) -> None:
+        """Add a task for the given pet to this schedule's pooled task list."""
         self.tasks.append((pet, task))
 
     def build_plan(self, available_minutes: int) -> list[tuple[Pet, Task]]:
-        """Choose and order tasks that fit within a shared time budget.
-
-        Tasks from all of the owner's pets are pooled together and considered
-        in priority order (high, then medium, then low), with longer tasks
-        scheduled first within a priority tier so short tasks can be used to
-        fill remaining gaps.
-        """
+        """Choose and order pooled tasks by priority to fit within the time budget."""
         self._available_minutes = available_minutes
         ordered_candidates = sorted(
             self.tasks,
@@ -86,6 +86,7 @@ class Schedule:
         return planned
 
     def print_plan(self) -> None:
+        """Print the most recently built plan as a numbered list."""
         if not self._planned_tasks:
             print("No plan has been generated yet. Call build_plan() first.")
             return
@@ -95,6 +96,7 @@ class Schedule:
             print(f"{index}. [{pet.name}] {task.activity} ({task.duration} min)")
 
     def get_reasoning(self) -> str:
+        """Return a human-readable explanation of the most recently built plan."""
         if not self._planned_tasks and not self._skipped_tasks:
             return "No plan has been generated yet. Call build_plan() first."
 
