@@ -15,6 +15,10 @@ class Task:
     preferences: str = ""
     status: str = "pending"
 
+    def __post_init__(self) -> None:
+        if self.duration < 0:
+            raise ValueError(f"duration must not be negative, got {self.duration}")
+
     def mark_complete(self) -> None:
         """Mark this task as completed."""
         self.status = "completed"
